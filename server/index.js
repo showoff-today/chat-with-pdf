@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import  {uploadFile}  from './middlewares/multer.js';
 import { ClerkExpressRequireAuth } from '@clerk/clerk-sdk-node';
-
+import pdfProcessQueue from './queue.js';
 
 dotenv.config();
 const PORT = process.env.PORT || 5000;
@@ -21,7 +21,12 @@ app.post('/upload-file',ClerkExpressRequireAuth(), uploadFile, async (req, res) 
     if (!req.file) {
         return res.status(400).send('No file uploaded');
     }
-    
+
+    await pdfProcessQueue.add('pdfProcess', {
+        filePath: req.file.filename,
+        userId: req.auth.userId,
+    })
+
     res.status(200).json({
         message: 'File uploaded successfully',
     });
