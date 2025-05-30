@@ -2,7 +2,7 @@ import { Worker } from 'bullmq';
 import dotenv from 'dotenv';
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { QdrantVectorStore } from '@langchain/qdrant';
-import geminiService from './services/gemini.service';
+import geminiService from './services/gemini.service.js';
 dotenv.config();
 
 new Worker(
