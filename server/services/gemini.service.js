@@ -2,8 +2,8 @@ import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import dotenv from 'dotenv';
 dotenv.config();
 
-class OpenAiService{
-    openAiEmbeddings = () => {
+class GeminiService{
+    GeminiEmbeddings = () => {
         return new GoogleGenerativeAIEmbeddings({
               model: "text-embedding-004",
               apiKey: process.env.GOOGLE_API_KEY,
@@ -11,4 +11,4 @@ class OpenAiService{
         }
 }
 
-export default new OpenAiService();
+export default new GeminiService();

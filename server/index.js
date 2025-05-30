@@ -4,9 +4,9 @@ import dotenv from 'dotenv';
 import { uploadFile } from './middlewares/multer.js';
 import { ClerkExpressRequireAuth } from '@clerk/clerk-sdk-node';
 import pdfProcessQueue from './queue.js';
-import oepnaiService from './services/oepnai.service.js';
 import { QdrantVectorStore } from '@langchain/qdrant';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import geminiService from './services/gemini.service.js';
 
 dotenv.config();
 const PORT = process.env.PORT || 5000;
@@ -44,7 +44,7 @@ app.post('/chat', ClerkExpressRequireAuth(), async (req, res) => {
 
     let context;
     try {
-        const embeddings = oepnaiService.openAiEmbeddings();
+        const embeddings = geminiService.GeminiEmbeddings();
 
         const vectorStore = await QdrantVectorStore.fromExistingCollection(embeddings, {
             url: process.env.QDRANT_URL,

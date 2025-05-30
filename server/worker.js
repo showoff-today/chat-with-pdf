@@ -2,7 +2,7 @@ import { Worker } from 'bullmq';
 import dotenv from 'dotenv';
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { QdrantVectorStore } from '@langchain/qdrant';
-import oepnaiService from './services/oepnai.service.js';
+import geminiService from './services/gemini.service';
 dotenv.config();
 
 new Worker(
@@ -14,7 +14,7 @@ new Worker(
     let actualPath = `./uploads/${filePath}`;
     const loader = new PDFLoader(actualPath);
     const docs = await loader.load();
-    const embeddings = oepnaiService.openAiEmbeddings();
+    const embeddings = geminiService.GeminiEmbeddings();
     try {
       const vectorStore = await QdrantVectorStore.fromExistingCollection(embeddings, {
         url: process.env.QDRANT_URL,
